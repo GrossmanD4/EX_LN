@@ -128,29 +128,3 @@ def ListaTabla(con, nom):
     for x in sentencia:
         print(x)
 
-# Menu de ingreso de tablas base
-def menu_ingreso_base(con):
-    executor = ""
-    while executor != "no":
-        crearTabla(con)
-        executor = input("¿Desea continuar agregando Tablas?--> ")
-    imprimirTabla(con)
-
-def detalle(con):
-    cursor = con.cursor()
-    Query = f"INSERT INTO DETALLE(DNI,Venta_total)\n"
-    Query += f"SELECT DATOS.DNI, SUM(PRODUCTOS.Precio) AS Venta_total FROM DATOS,PRODUCTOS,VENTAS\n"
-    Query += f"WHERE DATOS.DNI=VENTAS.DNI AND VENTAS.Nombre_producto=PRODUCTOS.Nombre_producto\n"
-    Query += f"GROUP BY DATOS.DNI"
-    cursor.execute(Query)
-    con.commit()
-
-def mostrar_detalle():
-    ListaTabla(conexion(),"DETALLE")
-
-def eliminar_detalle(con):
-    cursor = con.cursor()
-    Query = f"DELETE FROM DETALLE;"
-    cursor.execute(Query)
-    con.commit()
-
